@@ -1,25 +1,3 @@
-![Banner](https://github.com/thirdweb-example/thirdweb-auth-express/assets/17715009/06383e68-9c65-4265-8505-e88e573443f9)
-# thirdweb expo starter
-
-Starter template to build an onchain react native app with [thirdweb](https://thirdweb.com/) and [expo](https://expo.dev/).
-
-### Features
-
-- in-app wallets using phone number, email or social logins to create a wallet for the user
-- smart accounts to sponsor gas
-- connecting to external wallets like MetaMask via WalletConnect
-- autoconnecting to the last connected wallet on launch
-- reading contract state and events
-- writing to the blockchain
-
-## Installation
-
-Install the template using [thirdweb create](https://portal.thirdweb.com/cli/create)
-
-```bash
-  npx thirdweb create app --expo
-```
-
 ## Get started
 
 1. Install dependencies
