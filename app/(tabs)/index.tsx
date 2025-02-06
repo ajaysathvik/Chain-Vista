@@ -1,5 +1,5 @@
 import { Image, StyleSheet, View, useColorScheme } from "react-native";
-
+import { Button } from "react-native";
 import { ParallaxScrollView } from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -12,6 +12,7 @@ import {
   lightTheme,
   ConnectEmbed,
 } from "thirdweb/react";
+import { useRouter } from "expo-router";
 import {
   getUserEmail,
   hasStoredPasskey,
@@ -24,24 +25,18 @@ import { useEffect, useState } from "react";
 import { createWallet } from "thirdweb/wallets";
 import { baseSepolia, ethereum } from "thirdweb/chains";
 import { createAuth } from "thirdweb/auth";
-import { Link } from 'expo-router';
-import { useNavigation } from '@react-navigation/native';
-import { useLayoutEffect } from 'react';
-import { Pressable, Text } from 'react-native';
-import { Dimensions } from 'react-native'
-
-const vw = Dimensions.get('window').width / 100
-const vh = Dimensions.get('window').height / 100
+import { Link } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import { useLayoutEffect } from "react";
+import { Pressable, Text } from "react-native";
+import { Dimensions } from "react-native";
+const vw = Dimensions.get("window").width / 100;
+const vh = Dimensions.get("window").height / 100;
 
 const wallets = [
   inAppWallet({
     auth: {
-      options: [
-        "google",
-        "facebook",
-        "email",
-        "phone",
-      ],
+      options: ["google", "facebook", "email", "phone"],
     },
     smartAccount: {
       chain: baseSepolia,
@@ -73,16 +68,15 @@ const thirdwebAuth = createAuth({
 let isLoggedIn = false;
 
 export default function Login() {
-  const navigation = useNavigation();
-
   const account = useActiveAccount();
   const theme = useColorScheme();
+  const router = useRouter();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
+  const handleNavigateToScreen = () => {
+    // Navigate to the screen folder's index
+    router.push("/screen");
+  };
   return (
-
     <ThemedView>
       <View style={{ height: 20 * vh }} />
       <ConnectButton
@@ -90,40 +84,17 @@ export default function Login() {
         theme={theme || "dark"}
         wallets={wallets}
         chain={baseSepolia}
-      />  
+      />
       <View style={{ height: 20 * vh }} />
-      <View>
-        <Link href="/screen" asChild>
-          <Pressable>
-            <Text style={{ color: 'red' }}>Next</Text>
-          </Pressable>
-        </Link>
+      <View style={styles.container}>
+        <Text style={styles.title}>Home Screen</Text>
+        <Pressable onPress={handleNavigateToScreen} style={styles.button}>
+          <Text style={styles.buttonText}>Go to Screen</Text>
+        </Pressable>
       </View>
-
     </ThemedView>
   );
 }
-
-const CustomConnectUI = () => {
-  const wallet = useActiveWallet();
-  const account = useActiveAccount();
-  const [email, setEmail] = useState<string | undefined>();
-  const { disconnect } = useDisconnect();
-  useEffect(() => {
-    if (wallet && wallet.id === "inApp") {
-      getUserEmail({ client }).then(setEmail);
-    }
-  }, [wallet]);
-
-  return (
-    <View>
-      <ThemedText>Connected as {shortenAddress(account.address)}</ThemedText>
-      {email && <ThemedText type="subtext">{email}</ThemedText>}
-      <View style={{ height: 16 }} />
-      <ThemedButton onPress={() => disconnect(wallet)} title="Disconnect" />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   titleContainer: {
@@ -141,6 +112,26 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: "absolute",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
   rowContainer: {
     flexDirection: "row",

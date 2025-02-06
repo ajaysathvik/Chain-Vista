@@ -1,16 +1,14 @@
+// app/(tabs)/_layout.tsx
 import { Stack } from "expo-router";
-import React from "react";
 
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
-
-export default function TabLayout() {
-	const colorScheme = useColorScheme();
-	
-	return (
-		<Stack screenOptions={{ headerShown: false, }}>
-			<Stack.Screen name="index" />
-		</Stack>
-	);
+export default function TabsLayout() {
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: "#f4f4f4" },
+      }}
+    >
+      <Stack.Screen name="index" />
+    </Stack>
+  );
 }
